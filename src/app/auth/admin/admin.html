@@ -1,0 +1,56 @@
+<div class="admin-page">
+  <div class="admin-card">
+    <div class="header">
+      <h2>Gestion des utilisateurs</h2>
+      <button class="back-btn" (click)="goToDashboard()">← Retour au tableau de bord</button>
+    </div>
+
+    <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="loading" *ngIf="loading">Chargement...</div>
+
+    <table *ngIf="!loading" class="users-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom d'utilisateur</th>
+        <th>Email</th>
+        <th>Statut</th>
+        <th>Rôle</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+            <span class="badge" [class.active]="user.enabled" [class.inactive]="!user.enabled">
+              {{ user.enabled ? 'Actif' : 'Désactivé' }}
+            </span>
+        </td>
+        <td>
+            <span class="badge" [class.admin]="isAdmin(user)">
+              {{ isAdmin(user) ? 'Admin' : 'User' }}
+            </span>
+        </td>
+        <td class="actions">
+          <button class="action-btn toggle" (click)="toggleAdminRole(user)">
+            {{ isAdmin(user) ? 'Retirer admin' : 'Rendre admin' }}
+          </button>
+          <button class="action-btn status" (click)="toggleStatus(user)">
+            {{ user.enabled ? 'Désactiver' : 'Activer' }}
+          </button>
+          <button class="action-btn delete" (click)="deleteUser(user)">
+            Supprimer
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!loading && users.length === 0" class="empty">Aucun utilisateur trouvé.</p>
+  </div>
+</div>
