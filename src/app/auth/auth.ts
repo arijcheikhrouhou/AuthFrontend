@@ -9,13 +9,14 @@ export interface JwtResponse {
   username: string;
   email: string;
   roles: string[];
+  mfaEnabled: boolean;
 }
 
 export interface LoginRequest {
   username: string;
   password: string;
+  mfaCode?: string;
 }
-
 export interface SignupRequest {
   username: string;
   email: string;

@@ -16,6 +16,10 @@ export class Login {
   password = '';
   errorMessage = '';
 
+  mfaRequired = false;
+  mfaCode = '';
+  mfaError = '';
+
   constructor(
     private authService: Auth,
     private router: Router,
@@ -25,8 +29,13 @@ export class Login {
   onSubmit(): void {
     this.errorMessage = '';
     this.authService.login({ username: this.username, password: this.password }).subscribe({
-      next: () => {
-        this.router.navigate(['/dashboard']);
+      next: (response: any) => {
+        if (response && response.mfaRequired) {
+          this.mfaRequired = true;
+          this.cdr.detectChanges();
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Identifiants incorrects. Veuillez réessayer.';
@@ -34,5 +43,28 @@ export class Login {
         console.error(err);
       },
     });
+  }
+
+  onSubmitMfa(): void {
+    this.mfaError = '';
+    this.authService
+      .login({ username: this.username, password: this.password, mfaCode: this.mfaCode })
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          this.mfaError = err.error?.message || 'Code invalide. Réessayez.';
+          this.cdr.detectChanges();
+          console.error(err);
+        },
+      });
+  }
+
+  cancelMfa(): void {
+    this.mfaRequired = false;
+    this.mfaCode = '';
+    this.mfaError = '';
+    this.cdr.detectChanges();
   }
 }

@@ -69,5 +69,57 @@
       <p>Votre session est active et sécurisée par un token JWT.</p>
       <button *ngIf="isAdmin" class="admin-cta" (click)="goToAdmin()">Accéder à la gestion des utilisateurs</button>
     </section>
+
+    <section class="mfa-panel">
+      <div class="mfa-header">
+        <h2>Double authentification (MFA)</h2>
+        <span class="mfa-status" [class.on]="mfaEnabled" [class.off]="!mfaEnabled">
+          {{ mfaEnabled ? 'Activée' : 'Désactivée' }}
+        </span>
+      </div>
+
+      <p class="mfa-description">
+        Ajoutez une couche de sécurité supplémentaire à votre compte grâce à une application
+        d'authentification (Google Authenticator, Microsoft Authenticator...).
+      </p>
+
+      <div class="mfa-message success" *ngIf="mfaSuccessMessage">{{ mfaSuccessMessage }}</div>
+      <div class="mfa-message error" *ngIf="mfaErrorMessage">{{ mfaErrorMessage }}</div>
+
+      <!-- État 1 : MFA désactivé, pas encore en configuration -->
+      <button *ngIf="!mfaEnabled && !showMfaSetup" class="mfa-btn enable" (click)="startMfaSetup()">
+        Activer la double authentification
+      </button>
+
+      <!-- État 2 : MFA activé -->
+      <button *ngIf="mfaEnabled && !showMfaSetup" class="mfa-btn disable" (click)="disableMfa()">
+        Désactiver la double authentification
+      </button>
+
+      <!-- État 3 : configuration en cours (QR code affiché) -->
+      <div class="mfa-setup" *ngIf="showMfaSetup">
+        <p class="mfa-step">1. Scannez ce QR code avec votre application d'authentification :</p>
+        <img [src]="'data:image/png;base64,' + qrCodeImage" alt="QR code MFA" class="mfa-qr" />
+
+        <p class="mfa-step">Ou entrez cette clé manuellement :</p>
+        <code class="mfa-secret">{{ secret }}</code>
+
+        <p class="mfa-step">2. Entrez le code à 6 chiffres généré :</p>
+        <div class="mfa-code-input">
+          <input
+            type="text"
+            [(ngModel)]="mfaCode"
+            name="mfaCode"
+            placeholder="123456"
+            maxlength="6"
+          />
+        </div>
+
+        <div class="mfa-setup-actions">
+          <button class="mfa-btn cancel" (click)="cancelMfaSetup()">Annuler</button>
+          <button class="mfa-btn confirm" (click)="confirmMfaEnable()">Confirmer</button>
+        </div>
+      </div>
+    </section>
   </main>
 </div>

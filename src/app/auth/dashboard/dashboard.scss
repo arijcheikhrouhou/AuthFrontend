@@ -189,6 +189,143 @@
       }
     }
   }
+
+  .mfa-panel {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+
+    .mfa-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+
+      h2 {
+        margin: 0;
+        font-size: 18px;
+        color: #2b2b2b;
+      }
+
+      .mfa-status {
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+
+        &.on {
+          background: #e8f5e9;
+          color: #2e7d32;
+        }
+
+        &.off {
+          background: #f5f5f5;
+          color: #888;
+        }
+      }
+    }
+
+    .mfa-description {
+      color: #777;
+      font-size: 14px;
+      margin: 0 0 16px;
+    }
+
+    .mfa-message {
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-bottom: 16px;
+
+      &.success {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      &.error {
+        background: #fdecea;
+        color: #d32f2f;
+      }
+    }
+
+    .mfa-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+
+      &.enable {
+        background: #4a90e2;
+        color: white;
+        &:hover { background: #357abd; }
+      }
+
+      &.disable {
+        background: #fdecea;
+        color: #d32f2f;
+        &:hover { background: #fbd9d5; }
+      }
+
+      &.cancel {
+        background: #f0f0f0;
+        color: #666;
+        margin-right: 10px;
+        &:hover { background: #e0e0e0; }
+      }
+
+      &.confirm {
+        background: #4a90e2;
+        color: white;
+        &:hover { background: #357abd; }
+      }
+    }
+
+    .mfa-setup {
+      margin-top: 12px;
+
+      .mfa-step {
+        font-size: 14px;
+        color: #555;
+        margin: 16px 0 8px;
+      }
+
+      .mfa-qr {
+        display: block;
+        width: 180px;
+        height: 180px;
+        border-radius: 12px;
+        border: 1px solid #eee;
+      }
+
+      .mfa-secret {
+        display: inline-block;
+        background: #f5f5f5;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        letter-spacing: 1px;
+        color: #333;
+      }
+
+      .mfa-code-input input {
+        width: 160px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        letter-spacing: 4px;
+        text-align: center;
+      }
+
+      .mfa-setup-actions {
+        margin-top: 16px;
+      }
+    }
+  }
 }
 
 @media (max-width: 768px) {
