@@ -1,59 +1,48 @@
-# AuthFrontend
+# AuthFrontend — Secure Authentication UI (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.5.
+Interface Angular du module d'authentification sécurisé. Elle consomme l'API [AuthService](https://github.com/arijcheikhrouhou/AuthService) (Spring Boot, JWT, MFA/TOTP, Redis, Wazuh).
 
-## Development server
+![Angular](https://img.shields.io/badge/Angular-22-DD0031) ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6)
 
-To start a local development server, run:
+## Fonctionnalités
 
-```bash
-ng serve
+- **Inscription et connexion** avec gestion du JWT
+- **Intercepteur HTTP** qui ajoute automatiquement le token `Authorization: Bearer` à chaque requête
+- **MFA / TOTP** : activation de la double authentification (QR code) et vérification du code à la connexion
+- **Guards de routes** : `authGuard` (utilisateur connecté) et `adminGuard` (rôle ADMIN)
+- **Espace administrateur** : liste des utilisateurs, modification des rôles, activation ou désactivation et suppression des comptes
+- **Déconnexion** avec révocation du token côté serveur
+
+## Routes
+
+| Route | Accès |
+|---|---|
+| `/login` | public |
+| `/register` | public |
+| `/dashboard` | utilisateur connecté |
+| `/admin` | ADMIN |
+
+## Structure
+
+```
+src/app/auth/
+├── auth.ts               service d'authentification (login, signup, logout, me)
+├── mfa.service.ts        configuration MFA / TOTP
+├── admin.service.ts      gestion des utilisateurs
+├── auth-interceptor.ts   injection du JWT
+├── auth-guard.ts / admin-guard.ts
+└── login/ register/ dashboard/ admin/   composants
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Lancer le projet
 
 ```bash
-ng generate component component-name
+npm install
+ng serve          # http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Le back-end [AuthService](https://github.com/arijcheikhrouhou/AuthService) doit tourner sur `http://localhost:8080`.
 
-```bash
-ng generate --help
-```
+## Auteur
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Arij Cheikhrouhou** — [GitHub](https://github.com/arijcheikhrouhou)
